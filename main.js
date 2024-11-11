@@ -23,7 +23,7 @@ const createELement = (html, className) => {
     return chatDiv
 }
 
-const getChatResponse = async () => {
+const getChatResponse = async (incomingChatDiv) => {
     const pElement = document.createElement("p")
 
     //url i tanımla
@@ -62,11 +62,16 @@ const getChatResponse = async () => {
         const response = await fetch(url, options);
         //gelen cevabı json a çevir ve bekle
         const result = await response.json();
-        console.log(result);
+        pElement.innerHTML = result.result;
     } catch (error) {
         console.error(error);
     }
-
+    //animasyonu kaldırabilmek için queryselector ile  sectik ve ekranda remove ile kaldrdık.
+    incomingChatDiv.querySelector(".typing-animation").remove()
+    //api den gelen cevabı ekrana aktarabilmek için chat-details i seçip bir değişkene aktardık
+    const detailDiv = incomingChatDiv.querySelector("chat-details")
+    //bu detail içerisine oluşturdugumuz pElementini aktardık
+    detailDiv.appendChild(pElement)
 }
 
 const showTypingAnimation = () => {
@@ -87,7 +92,8 @@ const showTypingAnimation = () => {
     const incomingChatDiv = createELement(html, "incoming")
     chatContainer.appendChild(incomingChatDiv)
 
-    getChatResponse()
+
+    getChatResponse(incomingChatDiv)
 
 
 }
