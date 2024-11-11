@@ -3,6 +3,7 @@ const chatInput = document.querySelector("#chat-input")
 const sendButton = document.querySelector("#send-btn");
 const defaultText = document.querySelector(".default-text");
 const chatContainer = document.querySelector(".chat-container");
+const themeButton = document.querySelector("#theme-btn");
 
 
 let userText = null
@@ -34,7 +35,7 @@ const getChatResponse = async (incomingChatDiv) => {
         headers: {
             'x-rapidapi-key': 'e48aae4760msh168a32d55c6ea2fp1054afjsn68df4fe6d656',
             'x-rapidapi-host': 'chatgpt-42.p.rapidapi.com',
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
         },
         body: JSON.stringify(
             {
@@ -69,14 +70,19 @@ const getChatResponse = async (incomingChatDiv) => {
     //animasyonu kaldırabilmek için queryselector ile  sectik ve ekranda remove ile kaldrdık.
     incomingChatDiv.querySelector(".typing-animation").remove()
     //api den gelen cevabı ekrana aktarabilmek için chat-details i seçip bir değişkene aktardık
-    const detailDiv = incomingChatDiv.querySelector("chat-details")
-    //bu detail içerisine oluşturdugumuz pElementini aktardık
-    detailDiv.appendChild(pElement)
+    // const detailDiv = incomingChatDiv.querySelector("chat-details")
+    // //bu detail içerisine oluşturdugumuz pElementini aktardık
+    // detailDiv.appendChild(pElement)
+    incomingChatDiv.querySelector(".chat-details").appendChild(pElement)
+
+    chatInput.value = null
+
+
 }
 
 const showTypingAnimation = () => {
     const html = `
-   <div class="chat-content">
+    <div class="chat-content">
         <div class="chat-details">
             <img src="./images/chatbot.jpg" alt="" />
             <div class="typing-animation">
@@ -85,9 +91,10 @@ const showTypingAnimation = () => {
                 <div class="typing-dot" style="--delay: 0.4s"></div>
             </div>
         </div>
-   </div>
-    
+    </div>
+
     `;
+
 
     const incomingChatDiv = createELement(html, "incoming")
     chatContainer.appendChild(incomingChatDiv)
@@ -132,10 +139,28 @@ const handleOutGoingChat = () => {
 
     setTimeout(showTypingAnimation, 500)
 
-        ;
+
 
 }
 
 
 //olay izleyicileri
 sendButton.addEventListener("click", handleOutGoingChat)
+
+//text area ya girilen kalvyeden herhangi bir tuşa bastığımız anda bu olay izleyicisi çalışır
+chatInput.addEventListener("keydown", (e) => {
+    //klavyeden enter tuşuna basıldığı anda handleOutGoingChat fonk çalıştır
+    if (e.key === "Enter") {
+        handleOutGoingChat();
+    }
+
+
+})
+//* ThemeButtona her tıkladığımızda bodye light mode classını ekle ve çıkar
+themeButton.addEventListener("click", () => {
+    document.body.classList.toggle("light-mode");
+    //* body light-mode classını içeriyorsa themeButton içerisindeki yazıyı dark_mode yap.İçermiyorsa light_mode yap.
+    themeButton.innerText = document.body.classList.contains("light-mode")
+        ? "dark_mode"
+        : "light_mode";
+});
