@@ -169,6 +169,13 @@ body {
     color: var(--icon-color);
     justify-content: center;
     align-items: center;
+    cursor: pointer;
+    transition: all 0.4s;
+
+}
+
+.typing-content span:hover {
+    background: #cccccc;
 }
 
 .typing-controls {
