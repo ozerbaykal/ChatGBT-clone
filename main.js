@@ -4,6 +4,7 @@ const sendButton = document.querySelector("#send-btn");
 const defaultText = document.querySelector(".default-text");
 const chatContainer = document.querySelector(".chat-container");
 const themeButton = document.querySelector("#theme-btn");
+const deleteButton = document.querySelector("#delete-btn");
 
 
 let userText = null
@@ -163,4 +164,43 @@ themeButton.addEventListener("click", () => {
     themeButton.innerText = document.body.classList.contains("light-mode")
         ? "dark_mode"
         : "light_mode";
+});
+//* Sil butonuna tıkladığımızda chat-container divini siler ve yerine defaultText 'i aktarır.
+
+deleteButton.addEventListener("click", () => {
+    //* Confirm ile ekrana bir mesaj bastırdık.Confirm bize true ve false değer döndürür.
+    //* Tamam tuşuna basıldığında true döndürür.
+    //* İptal tuşuna basıldığında false döndürür.
+    if (confirm("Tüm sohbetleri silmek istediğinize emin misiniz?")) {
+        chatContainer.remove();
+    } else {
+
+        const defaultText = `
+      <div class="default-text">
+          <h1>ChatGPT Clone</h1>
+      </div>
+      <div class="chat-container"></div>
+      <div class="typing-container">
+          <div class="typing-content">
+              <div class="typing-textarea">
+                  <textarea
+                  id="chat-input"
+                  placeholder="Aratmak istediğiniz veriyi giriniz..."
+                  ></textarea>
+                  <span class="material-symbols-outlined" id="send-btn"> send </span>
+              </div>
+              <div class="typing-controls">
+                  <span class="material-symbols-outlined" id="theme-btn">
+                  light_mode
+                  </span>
+                  <span class="material-symbols-outlined" id="delete-btn">
+                  delete
+                  </span>
+              </div>
+          </div>
+      </div>
+    `;
+
+        document.body.innerHTML = defaultText;
+    }
 });
