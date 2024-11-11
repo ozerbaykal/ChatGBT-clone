@@ -23,6 +23,52 @@ const createELement = (html, className) => {
     return chatDiv
 }
 
+const getChatResponse = async () => {
+    const pElement = document.createElement("p")
+
+    //url i tanımla
+    const url = 'https://chatgpt-42.p.rapidapi.com/geminipro';
+    //options'ı tanımla
+    const options = {
+        method: 'POST',
+        headers: {
+            'x-rapidapi-key': 'e48aae4760msh168a32d55c6ea2fp1054afjsn68df4fe6d656',
+            'x-rapidapi-host': 'chatgpt-42.p.rapidapi.com',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(
+            {
+                messages: [
+                    {
+                        role: 'user',
+                        content: `${userText}`
+                    }
+                ],
+                temperature: 0.9,
+                top_k: 5,
+                top_p: 0.9,
+                max_tokens: 256,
+                web_access: false
+            }
+
+
+        )
+
+
+    }
+    //api ye istek at
+    try {
+        //api ye url ve options kullanarak istek at ve bekle
+        const response = await fetch(url, options);
+        //gelen cevabı json a çevir ve bekle
+        const result = await response.json();
+        console.log(result);
+    } catch (error) {
+        console.error(error);
+    }
+
+}
+
 const showTypingAnimation = () => {
     const html = `
    <div class="chat-content">
@@ -40,6 +86,8 @@ const showTypingAnimation = () => {
 
     const incomingChatDiv = createELement(html, "incoming")
     chatContainer.appendChild(incomingChatDiv)
+
+    getChatResponse()
 
 
 }
