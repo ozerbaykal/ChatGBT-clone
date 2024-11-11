@@ -159,7 +159,7 @@ body {
     position: absolute;
     right: 0;
     bottom: 0;
-    visibility: hidden;
+    /* visibility: hidden; */
 }
 
 .typing-content span {
